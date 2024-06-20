@@ -1,0 +1,407 @@
+@font-face {
+    font-family: "Resource-Han-Rounded-CN-Bold";
+    src: url('../COMMON/font/Resource Han Rounded CN Medium.ttf');
+}
+
+@font-face {
+    font-family: "MaokenAssortedSans";
+    src: url('../COMMON/font/MaoKenShiJinHei-2.ttf');
+}
+
+@font-face {
+    font-family: "Sarasa-UI-SC-Bold";
+    src: url('../COMMON/font/SarasaUiSC-Bold.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0
+}
+
+.container {
+    background: gray;
+    width: 1920px;
+    height: 1080px;
+}
+
+.player-container {
+    position: relative;
+}
+
+.player-a {
+    position: absolute;
+    left: 22px;
+    top: 23px;
+}
+
+.player-a-avatar {
+    position: absolute;
+    width: 101px;
+    height: 101px;
+    /*圆角12像素*/
+    border-radius: 12px;
+}
+
+.player-name {
+    height: 38px;
+    font-family: "Resource-Han-Rounded-CN-Bold";
+    font-size: 38px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 38px;
+    letter-spacing: 0px;
+    color: #ffffff;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+#player-a-name {
+    position: absolute;
+    left: 122px;
+    top: 3px;
+}
+
+.player-rank {
+    height: 25px;
+    font-family: "Resource-Han-Rounded-CN-Bold";
+    font-size: 25px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 25px;
+    letter-spacing: -1px;
+    color: #fffeff;
+    white-space: nowrap;
+}
+
+#player-a-rank {
+    position: absolute;
+    left: 121px;
+    top: 44px;
+}
+
+#player-a-stars {
+    position: absolute;
+    left: 122px;
+    top: 70px;
+    display: flex;
+    gap: 7px; /* 图片之间的间距 */
+}
+
+
+.player-b {
+    position: absolute;
+    width: 402px;
+    height: 106px;
+    left: 1496px;
+    top: 23px;
+}
+
+.player-b-avatar {
+    position: absolute;
+    left: 300px;
+    width: 101px;
+    height: 101px;
+    /*圆角12像素*/
+    border-radius: 12px;
+}
+
+#player-b-name {
+    position: absolute;
+    right: 124px;
+    top: 3px;
+}
+
+#player-b-rank {
+    position: absolute;
+    right: 123px;
+    top: 44px;
+}
+
+#player-b-stars {
+    position: absolute;
+    right: 123px;
+    top: 70px;
+    display: flex;
+    gap: 7px; /* 图片之间的间距 */
+}
+
+#selected {
+    position: absolute;
+    left: 1088px;
+    top: 84px;
+    width: 292px;
+    height: 37px;
+    border-radius: 19px;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    display: none;
+}
+
+.picked-by-a{
+    display: flex;
+    background-color: #860f44;
+}
+.picked-by-b{
+    display: flex;
+    background-color: #056674;
+}
+#picked-by {
+    text-align: center;
+    font-family: "MaokenAssortedSans";
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #fdfdfd;
+}
+
+
+#scoreboard {
+    position: absolute;
+    left: 375px;
+    top: 878px;
+    width: 1170px;
+    height: 202px;
+    background-color: rgba(0, 0, 0, 0.58); /* 50% 透明度的黑色背景 */
+    /*display: none;*/
+}
+
+
+.details {
+    display: flex;
+    gap: 7px;
+
+    position: absolute;
+    left: 14px;
+    top: 9px
+}
+
+.detail {
+    display: flex;
+    flex-direction: column;
+    width: 62px;
+    height: 53px;
+}
+
+.detail-up {
+    background-color: #efefef;
+    width: 62px;
+    height: 19px;
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 18px;
+}
+
+.detail-up span {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    color: #0a0a0a;
+}
+
+.detail-bottom {
+    width: 62px;
+    height: 34px;
+    background-color: #ffda77;
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 25px;
+
+}
+
+.detail-bottom span {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    color: #0a0a0a;
+}
+
+.star-ranking {
+    position: absolute;
+    left: 14px;
+    top: 70px;
+
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    width: 76px;
+    height: 28px;
+    background-color: #e3e3e3;
+}
+
+.star-ranking span {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 20px;
+    color: #0a0a0a;
+}
+
+
+.title {
+    position: absolute;
+    right: 13px;
+    top: 0px;
+}
+
+.title span {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 31px;
+    color: #ffffff;
+    width: 800px; /* 设置最大宽度 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
+    white-space: nowrap; /* 文本不换行 */
+    display: block; /* 确保span像块级元素一样接受宽度设置 */
+    text-align: right;
+}
+
+.mapper {
+    position: absolute;
+    right: 11px;
+    top: 39px;
+}
+
+.mapper span {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 25px;
+    color: #efc86d;
+}
+
+
+#mods {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 25px;
+    color: #ffffff;
+}
+#mods-bg {
+    position: absolute;
+    right: 10px;
+    top: 68px;
+    width: 96px;
+    height: 36px;
+    background-color: #1eafed;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    display: none;
+}
+
+.triangle {
+    position: absolute;
+    left: 564px;
+    top: 57px;
+    width: 41px;
+    height: 18px;
+    background-image: url(../COMMON/img/triangle.png);
+    background-repeat: no-repeat;
+}
+
+.red-blue {
+    position: absolute;
+    top: 76px;
+    background-image: url("../COMMON/img/red-blue.png");
+    width: 1170px;
+    height: 126px;
+}
+
+.score-offset {
+    position: absolute;
+    left: 514px;
+    top: 45px;
+    display: flex;
+    width: 144px;
+    height: 20px;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
+
+.score-offset span {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 25px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
+}
+
+.scores {
+    position: absolute;
+    left: 269px;
+    top: 150px;
+    display: flex;
+
+}
+
+.scores span {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 34px;
+    color: #fffffe;
+    width: 316px;
+    text-align: center;
+}
+
+#chat {
+    position: absolute;
+    left: 375px;
+    top: 878px;
+    width: 1170px;
+    height: 202px;
+    background-color: rgba(0, 0, 0, 0.58); /* 50% 透明度的黑色背景 */
+
+    display: none;
+}
+
+#chat-content {
+    position: absolute;
+    left: 21px;
+    top: 17px;
+    width: 1140px;
+    max-height: 180px;
+
+    overflow-y: auto; /* 当内容溢出时，自动显示垂直滚动条 */
+}
+/* 滚动槽 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+#chat-content p {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 25px;
+    margin: 0px;
+    color: #ffffff;
+}
+.time{
+    color: #e3e3e3;
+}
+.player-a-name-chat{
+    color: #ea5455;
+}
+.unknown-chat{
+    color: #28cc9e;
+}
+.player-b-name-chat{
+    color: #a1eafb;
+}
+#bg {
+    position: absolute;
+    left: 375px;
+    top: 648px;
+    width: 1170px;
+    height: 430px; /* 设置图片显示的高度 */
+    object-fit: cover; /* 保持图片的宽高比并填充容器 */
+    object-position: top; /* 确保图片的顶部对齐容器顶部 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+    filter: blur(3px);
+}
+
+.mapper-desc {
+}

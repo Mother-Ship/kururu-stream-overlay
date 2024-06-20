@@ -1,0 +1,53 @@
+@font-face {
+    font-family: "MaokenAssortedSans";
+    src: url('../COMMON/font/MaoKenShiJinHei-2.ttf');
+}
+body {
+    margin: 0;
+    padding: 0
+}
+
+.container{
+    background: gray;
+    width: 1920px;
+    height: 1080px;
+}
+#winner{
+    position: absolute;
+    left: 1027px;
+    top: 327px;
+    display: none;
+}
+.winner-avatar-bg{
+    width: 271px;
+    height: 271px;
+    background-color: #feba65;
+    border-radius: 44px;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+}
+.winner-label{
+    position: absolute;
+    top: 42px;
+    left: 330px;
+    font-family: MaokenAssortedSans;
+    font-size: 124px;
+    letter-spacing: 1px;
+    color: #ff656c;
+    text-shadow: 4px 7px rgba(81, 76, 66, 0.85);
+}
+#winner-avatar{
+    position: absolute;
+    width: 271px;
+    height: 271px;
+}
+#winner-name{
+    position: absolute;
+    left: 342px;
+    top: 172px;
+    width: 487px;
+    font-family: MaokenAssortedSans;
+    font-size: 75px;
+    color: #514c42;
+}

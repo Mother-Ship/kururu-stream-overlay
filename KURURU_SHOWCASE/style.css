@@ -1,0 +1,338 @@
+@font-face {
+    font-family: "SourceHanSansSC-Bold";
+    src: url('../COMMON/font/SourceHanSansSC-Bold.otf');
+}
+@font-face {
+    font-family: "SourceHanSansSC";
+    src: url('../COMMON/font/SourceHanSansSC-Normal.otf');
+}
+body {
+    margin: 0;
+    padding: 0;
+
+}
+#showcase_bg{
+    position: absolute;
+
+}
+#bg{
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    object-fit: cover; /* 保持图片的宽高比并填充容器 */
+    object-position: top; /* 确保图片的顶部对齐容器顶部 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+    z-index: -1;
+}
+.container {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+}
+.map-text-container{
+    position: absolute;
+    left: 72px;
+    top: 268px;
+    width: 763px;
+
+    display: flex;
+    flex-direction: column;
+}
+.map-title{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 120px;
+    line-height: 150px;
+
+    width: 1850px;
+    color: #ffffff;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.7);
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.map-artist{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 58px;
+    line-height: 68px;
+    width: 1920px;
+    color: #ffffff;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.7);
+
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.map-diff{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 75px;
+    line-height: 95px;
+
+    color: #b6ffce;
+    width: 1920px;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.7);
+
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.map-mapper{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 75px;
+    line-height: 95px;
+
+
+    color: #b6ffce;
+    width: 1920px;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.7);
+
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-data-container{
+    position: absolute;
+    top: 758px;
+}
+
+.map-mod{
+    position: absolute;
+    left: 74px;
+    top: 108px;
+    width: 261px;
+    height: 117px;
+    background-color: #1eafed; /* 几个MOD颜色，NM 1eafed，HD f9a826 HR f25c54  DT 7e5a83 RX 76d7c4 TB 2f2f2f*/
+
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 29px 3px
+    rgba(0, 0, 0, 0.29);
+    display: none;
+}
+.map-mod-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 100px;
+    color: #ffffff;
+}
+.map-cs{
+    position: absolute;
+    left: 399px;
+    width: 83px;
+    display: flex;
+    flex-direction: column;
+}
+.map-cs-label{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #fe78ba;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+/* 基础样式 */
+.map-cs-progress {
+    display: inline-block;
+    width: 10px; /* 可以根据需要调整宽度 */
+    height: 192px; /* 进度条的高度 */
+    background-color: #f3f3f3; /* 背景颜色 */
+    border-radius: 10px; /* 圆角效果 */
+    overflow: hidden; /* 隐藏超出部分，保持进度条形状 */
+    box-shadow: 0px 4px 29px 3px
+    rgba(0, 0, 0, 0.29);
+    position: relative;
+    left: 37px;
+}
+
+/* 进度条填充部分 */
+#map-cs-bar {
+    background-color: #fe78ba; /* 进度条颜色 */
+    border-radius: 10px; /* 圆角效果 */
+}
+.map-cs-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #fe78ba;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.map-od{
+    position: absolute;
+    left: 514px;
+    width: 83px;
+    display: flex;
+    flex-direction: column;
+}
+.map-od-label{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #4dbeff;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+/* 基础样式 */
+.map-od-progress {
+    display: inline-block;
+    width: 10px; /* 可以根据需要调整宽度 */
+    height: 192px; /* 进度条的高度 */
+    background-color: #f3f3f3; /* 背景颜色 */
+    border-radius: 10px; /* 圆角效果 */
+    overflow: hidden; /* 隐藏超出部分，保持进度条形状 */
+    box-shadow: 0px 4px 29px 3px
+    rgba(0, 0, 0, 0.29);
+    position: relative;
+    left: 37px;
+}
+
+/* 进度条填充部分 */
+#map-od-bar {
+
+    background-color: #4dbeff; /* 进度条颜色 */
+    border-radius: 10px; /* 圆角效果 */
+}
+.map-od-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #4dbeff;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+
+.map-ar{
+    position: absolute;
+    left: 628px;
+    width: 83px;
+    display: flex;
+    flex-direction: column;
+}
+.map-ar-label{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #ff3057;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+/* 基础样式 */
+.map-ar-progress {
+    display: inline-block;
+    width: 10px; /* 可以根据需要调整宽度 */
+    height: 192px; /* 进度条的高度 */
+    background-color: #f3f3f3; /* 背景颜色 */
+    border-radius: 10px; /* 圆角效果 */
+    overflow: hidden; /* 隐藏超出部分，保持进度条形状 */
+    box-shadow: 0px 4px 29px 3px
+    rgba(0, 0, 0, 0.29);
+    position: relative;
+    left: 37px;
+}
+
+/* 进度条填充部分 */
+#map-ar-bar {
+
+    background-color: #ff3057; /* 进度条颜色 */
+    border-radius: 10px; /* 圆角效果 */
+}
+.map-ar-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #ff3057;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+.map-length{
+    position: absolute;
+    left: 771px;
+    top: 6px;
+    width: 192px;
+}
+.map-length-label{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #413e3e;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+.map-length-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #413e3e;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 126px;
+    width: 192px;
+}
+
+
+.map-bpm{
+    position: absolute;
+    left: 1033px;
+    top: 6px;
+    width: 192px;
+}
+.map-bpm-label{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #a41ed5;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+.map-bpm-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #a41ed5;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 126px;
+    width: 192px;
+}
+
+.map-star{
+    position: absolute;
+    left: 1307px;
+    top: 6px;
+    width: 192px;
+}
+.map-star-label{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #f27608;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+}
+.map-star-text{
+    font-family: SourceHanSansSC-Bold;
+    font-size: 42px;
+    color: #f27608;
+    text-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 126px;
+    width: 192px;
+}

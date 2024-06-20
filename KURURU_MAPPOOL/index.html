@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map Pool Interface</title>
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="player-container">
+        <div class="player-a">
+            <img class="player-a-avatar" src="../COMMON/img/avatar_blank.png">
+
+            <div id="player-a-name" class="player-name">Player A</div>
+            <div id="player-a-rank" class="player-rank">#99</div>
+            <div class="player-a-stars">
+                <img class="points_white" src="../COMMON/img/points_white.png">
+                <img class="points_white" src="../COMMON/img/points_white.png">
+            </div>
+            <div class="player-a-ban-pick">
+                <span id="player-a-pick"></span>
+                <span id="player-a-ban"></span>
+            </div>
+        </div>
+        <div class="player-b">
+            <img class="player-b-avatar" src="../COMMON/img/avatar_blank.png">
+
+            <div id="player-b-name" class="player-name">Player B</div>
+            <div id="player-b-rank" class="player-rank">#99</div>
+            <div class="player-b-stars">
+                <img class="points_white" src="../COMMON/img/points_white.png">
+                <img class="points_white" src="../COMMON/img/points_white.png">
+            </div>
+            <div class="player-b-ban-pick">
+                <span id="player-b-pick"></span>
+                <span id="player-b-ban"></span>
+            </div>
+        </div>
+    </div>
+    <div id="map-pool">
+    </div>
+    <div class="chat">
+        <div id="chat-content">
+
+
+        </div>
+    </div>
+    <div class="control-panel">
+        <span class="panel-title">Control Panel</span>
+        <div class="panel-buttons">
+
+            <select id="select-round" name="bracket">
+                <option value="">请选择场次</option>
+            </select>
+
+            <div class="panel-label"> <span>切换Ban图顺序</span></div>
+            <button id="button-a-first" class="button-inactive">红色先Ban</button>
+            <button id="button-b-first" class="button-inactive">蓝色先Ban</button>
+            <div class="panel-label"> <span>当前Ban / Pick方</span></div>
+
+            <button id="button-a-ban" class="button-inactive">红色Ban</button>
+            <button id="button-b-ban" class="button-inactive">蓝色Ban</button>
+            <button id="button-a-pick" class="button-inactive">红色Pick</button>
+            <button id="button-b-pick" class="button-inactive">蓝色Pick</button>
+            <div class="panel-label"> <span>清空</span></div>
+            <button id="reset" class="button-active">清空所有Ban / Pick</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

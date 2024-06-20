@@ -1,0 +1,492 @@
+@font-face {
+    font-family: "TorusNotched-Bold";
+    src: url('../COMMON/font/TorusNotched-Bold.ttf');
+}
+
+@font-face {
+    font-family: "TorusNotched-Regular";
+    src: url('../COMMON/font/TorusNotched-Regular.ttf');
+}
+
+@font-face {
+    font-family: "Resource-Han-Rounded-CN-Bold";
+    src: url('../COMMON/font/Resource Han Rounded CN Medium.ttf');
+}
+
+@font-face {
+    font-family: "Sarasa-UI-SC-Bold";
+    src: url('../COMMON/font/SarasaUiSC-Bold.ttf');
+}
+
+body {
+    margin: 0;
+    padding: 0
+}
+
+.container {
+    background: gray;
+    width: 2238px;
+    height: 1080px;
+
+}
+
+.player-container {
+    position: absolute;
+}
+
+.player-a {
+    position: absolute;
+    top: 56px;
+}
+
+.player-a-avatar {
+    position: absolute;
+    width: 153px;
+    height: 153px;
+    top: 16px;
+    left: 22px;
+    /*切成圆形*/
+    border-radius: 50%;
+}
+
+.player-name {
+    width: 380px;
+    font-family: Resource-Han-Rounded-CN-Bold;
+    font-size: 58px;
+}
+
+.player-rank {
+    width: 110px;
+    font-family: Resource-Han-Rounded-CN-Bold;
+    font-size: 33px;
+}
+
+
+#player-a-name {
+    position: absolute;
+    top: 41px;
+    left: 190px;
+}
+
+#player-a-rank {
+    position: absolute;
+    top: 116px;
+    left: 186px;
+}
+
+.player-a-stars {
+    position: absolute;
+    top: 226px;
+    left: 8px;
+    display: flex;
+}
+
+.player-a-ban-pick {
+    position: absolute;
+    top: 109px;
+    left: 443px;
+    display: flex;
+    flex-direction: column;
+    width: 113px;
+
+}
+
+#player-a-ban {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 16px;
+    color: #9c4221;
+}
+
+#player-a-pick {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 16px;
+    color: #9c4221;
+}
+
+.player-b {
+    position: absolute;
+    top: 752px;
+}
+
+.player-b-avatar {
+    position: absolute;
+    width: 153px;
+    height: 153px;
+    top: 103px;
+    left: 22px;
+    /*切成圆形*/
+    border-radius: 50%;
+}
+
+#player-b-name {
+    position: absolute;
+    top: 127px;
+    left: 190px;
+}
+
+#player-b-rank {
+    position: absolute;
+    top: 202px;
+    left: 186px;
+}
+
+.player-b-stars {
+    position: absolute;
+    left: 8px;
+    display: flex;
+}
+
+.player-b-ban-pick {
+    position: absolute;
+    top: 194px;
+    left: 443px;
+    display: flex;
+    flex-direction: column;
+    width: 113px;
+
+}
+
+#player-b-ban {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 16px;
+    color: #9c4221;
+}
+
+#player-b-pick {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 16px;
+    color: #9c4221;
+}
+
+#map-pool {
+    position: absolute;
+    top: 65px;
+    left: 581px;
+    display: flex;
+    row-gap: 20px;
+    flex-direction: column;
+}
+
+.map-pool-mod {
+    position: relative;
+    width: 1040px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.map-pool-row {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+
+.map-pool-map {
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0); /* 透明边框 */
+    height: 67px;
+}
+
+.picked-by-a {
+    border-color: #ff3057;
+
+}
+
+.banned-by-a {
+    border-color: #ff3057;
+}
+
+.banned-by-a .map-bg-container::before {
+ z-index: 3
+}
+
+.picked-by-b {
+    border-color: #1eafed;
+}
+
+.banned-by-b {
+    border-color: #1eafed;
+}
+
+.banned-by-b .map-bg-container::before {
+    z-index: 3
+}
+
+.map-count-1 {
+    width: 340px;
+}
+
+.map-count-1 .map-pool-map {
+    width: 100%;
+}
+
+.map-count-2 {
+    width: 686px;
+}
+
+.map-count-2 .map-pool-map {
+    width: 50%;
+}
+
+.map-count-3 {
+    width: 1040px;
+}
+
+.map-count-3 .map-pool-map {
+    width: 33.3333%;
+}
+
+.map-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保持图片的宽高比并填充容器 */
+    object-position: top; /* 确保图片的顶部对齐容器顶部 */
+    overflow: hidden; /* 隐藏超出容器的内容 */
+}
+
+.map-bg-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色 */
+    z-index: 1;
+}
+
+
+.mod-bg {
+    position: absolute;
+    top: 20px;
+    left: 8px;
+    width: 47px;
+    height: 23px;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    z-index: 2;
+}
+
+.mod-bg-nm {
+    background-color: #1eafed; /* 几个MOD颜色，NM 1eafed，HD f9a826 HR f25c54  DT 7e5a83 RX 76d7c4 TB 2f2f2f*/
+}
+
+.mod-bg-hd {
+    background-color: #f9a826;
+}
+
+.mod-bg-hr {
+    background-color: #f25c54;
+}
+
+.mod-bg-dt {
+    background-color: #7e5a83;
+}
+
+.mod-bg-rx {
+    background-color: #76d7c4;
+}
+
+.mod-bg-tb {
+    background-color: #2f2f2f;
+}
+
+.mod-name {
+    width: 37px;
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+
+}
+
+.map-container {
+    position: absolute;
+    top: 12px;
+    left: 22px;
+    display: flex;
+    flex-direction: column;
+    max-width: 94%;
+    z-index: 2;
+}
+
+.map-info {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+.map-name {
+    font-family: TorusNotched-Bold;
+    font-size: 21px;
+    color: #ffffff;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mapper-desc {
+    font-family: TorusNotched-Regular;
+    font-size: 17px;
+    color: #ffffff;
+}
+
+.mapper-name {
+    font-family: TorusNotched-Bold;
+    font-size: 17px;
+    color: #ffffff;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.diff-desc {
+    font-family: TorusNotched-Regular;
+    font-size: 17px;
+    color: #ffffff;
+}
+
+.diff-name {
+    font-family: TorusNotched-Bold;
+    font-size: 17px;
+    color: #ffffff;
+    /* 防止文本换行 */
+    white-space: nowrap;
+    /* 隐藏超出容器的内容 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat {
+    position: absolute;
+    left: 579px;
+    top: 878px;
+    width: 1170px;
+    height: 202px;
+    background-color: rgba(0, 0, 0, 0.58); /* 50% 透明度的黑色背景 */
+
+    /*display: none;*/
+}
+
+#chat-content {
+    position: absolute;
+    left: 21px;
+    top: 17px;
+    width: 1140px;
+    max-height: 180px;
+
+    overflow-y: auto; /* 当内容溢出时，自动显示垂直滚动条 */
+}
+/* 滚动槽 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0,0,0,0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+#chat-content p {
+    font-family: Sarasa-UI-SC-Bold;
+    font-size: 25px;
+    margin: 0px;
+    color: #ffffff;
+}
+.time{
+    color: #e3e3e3;
+}
+.player-a-name-chat{
+    color: #ea5455;
+}
+.unknown-chat{
+    color: #28cc9e;
+}
+.player-b-name-chat{
+    color: #a1eafb;
+}
+.control-panel {
+    background: #363636;
+    width: 318px;
+    height: 1080px;
+    position: absolute;
+    left: 1920px;
+}
+
+.panel-title {
+    font-family: 'TorusNotched-Bold';
+    font-size: 30px;
+    color: #FFFFFF;
+    position: absolute;
+    left: 60px;
+}
+
+.panel-label span {
+    font-family: 'TorusNotched-Bold';
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+.panel-buttons {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#select-round {
+    width: 298px;
+    height: 60px;
+    background-color: #44aadd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 20px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.button-inactive {
+    background-color: #1d536e;
+    border-radius: 8px;
+    width: 298px;
+    height: 80px;
+    font-family: 'TorusNotched-Bold';
+    font-size: 20px;
+    color: #808080;
+    border: none;
+}
+
+.button-active {
+    background-color: #44aadd;
+    border-radius: 8px;
+    width: 298px;
+    height: 80px;
+    font-family: 'TorusNotched-Bold';
+    font-size: 20px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.button-active:hover {
+    background-color: #64cafd;
+}
+
+.button-inactive:hover {
+    background-color: #2b617c;
+}
