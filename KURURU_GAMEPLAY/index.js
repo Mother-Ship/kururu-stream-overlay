@@ -175,18 +175,19 @@ socket.api_v1(({tourney, menu}) => {
 
             // 处理picked by
             const operation = getStoredBeatmapById(bid.toString())
-
+            console.log(operation)
             if (operation !== null) {
-
                 if (operation.type === "Pick") {
                     if (operation.team === "Red") {
                         document.getElementById("selected").classList.remove("picked-by-a", "picked-by-b")
                         document.getElementById("selected").classList.add("picked-by-a")
+                        document.getElementById("selected").style.display= "flex"
                         document.getElementById("picked-by").innerText = "Picked by " + tourney.ipcClients[0].spectating.name;
                     }
                     if (operation.team === "Blue") {
                         document.getElementById("selected").classList.remove("picked-by-a", "picked-by-b")
                         document.getElementById("selected").classList.add("picked-by-b")
+                        document.getElementById("selected").style.display= "flex"
                         document.getElementById("picked-by").innerText = "Picked by " + tourney.ipcClients[1].spectating.name;
                     }
                 }
