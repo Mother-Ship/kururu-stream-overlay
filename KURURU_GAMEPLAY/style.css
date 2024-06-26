@@ -33,7 +33,7 @@ body {
     top: 23px;
 }
 
-.player-a-avatar {
+#player-a-avatar {
     position: absolute;
     width: 101px;
     height: 101px;
@@ -95,7 +95,7 @@ body {
     top: 23px;
 }
 
-.player-b-avatar {
+#player-b-avatar {
     position: absolute;
     left: 300px;
     width: 101px;
