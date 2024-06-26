@@ -138,102 +138,23 @@ socket.api_v1(({tourney, menu}) => {
     }
 });
 
-let allRound = getAllRound();
-allRound.then(
+let allRound;
+let currentRound;
+
+
+getAllRound().then(
     (rounds) => {
-        // 填充select-round下拉框
-        const select = document.getElementById("select-round")
-        rounds.forEach(
-            (round) => {
-                const option = document.createElement("option");
-                option.value = round.roundName;
-                option.text = round.roundName;
-                select.appendChild(option);
-            }
-        )
+        allRound = rounds;
+        currentRound = rounds[0];
+        onCurrentRoundChange();
     }
 )
 
-document.addEventListener('selectstart', function (e) {
-    e.preventDefault();
-})
+function onCurrentRoundChange() {
+    document.getElementById('current-match').innerText = "当前场次：" + currentRound.roundName;
 
-let currentOperation = null;
-
-document.getElementById('button-a-ban').addEventListener('click', function (e) {
-    // 激活自己，熄灭其他ban pick按钮
-    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-ban').classList.add("button-active");
-
-    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-pick').classList.add("button-inactive");
-    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-ban').classList.add("button-inactive");
-    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-pick').classList.add("button-inactive");
-
-    // 准备好全局变量，类似于{ "team": "Red", "type": "Pick", "beatmapID": 2194138 }，只不过没有beatmapId
-    currentOperation = {
-        "team": "Red",
-        "type": "Ban"
-    };
-})
-document.getElementById('button-a-pick').addEventListener('click', function (e) {
-    // 激活自己，熄灭其他ban pick按钮
-    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-ban').classList.add("button-inactive");
-    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-pick').classList.add("button-active");
-    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-ban').classList.add("button-inactive");
-    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-pick').classList.add("button-inactive");
-    currentOperation = {
-        "team": "Red",
-        "type": "Pick"
-    };
-})
-
-document.getElementById('button-b-ban').addEventListener('click', function (e) {
-    // 激活自己，熄灭其他ban pick按钮
-    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-ban').classList.add("button-inactive");
-    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-pick').classList.add("button-inactive");
-    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-ban').classList.add("button-active");
-    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-pick').classList.add("button-inactive");
-    currentOperation = {
-        "team": "Blue",
-        "type": "Ban"
-    }
-})
-document.getElementById('button-b-pick').addEventListener('click', function (e) {
-    // 激活自己，熄灭其他ban pick按钮
-    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-ban').classList.add("button-inactive");
-    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-a-pick').classList.add("button-inactive");
-    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-ban').classList.add("button-inactive");
-    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
-    document.getElementById('button-b-pick').classList.add("button-active");
-    currentOperation = {
-        "team": "Blue",
-        "type": "Pick"
-    }
-})
-
-
-document.getElementById('select-round').addEventListener('change', function (event) {
-    // 获取用户当前选择的值
-    const selectedValue = event.target.value;
-
-    // 在这里处理选择变化后的逻辑
-    console.log('Selected value:', selectedValue);
     // 根据场次名称找到本场谱面
-    const beatmapList = getBeatmapListByRoundName(selectedValue);
+    const beatmapList = getBeatmapListByRoundName(currentRound.roundName);
     beatmapList.then(
         (beatmaps) => {
             console.log(beatmaps)
@@ -391,7 +312,116 @@ document.getElementById('select-round').addEventListener('change', function (eve
 
         }
     );
-});
+
+}
+
+document.getElementById('button-match-next').addEventListener('click', function (e) {
+    //切换currentRound到下一场
+    for (let i = 0; i < allRound.length; i++) {
+        if (allRound[i].roundName === currentRound.roundName) {
+            console.log(i)
+            if (i === allRound.length - 1) {
+                currentRound = allRound[0];
+            }else{
+                currentRound = allRound[i + 1];
+            }
+            break;
+        }
+    }
+
+    onCurrentRoundChange();
+
+})
+
+document.getElementById('button-match-previous').addEventListener('click', function (e) {
+    //切换currentRound到上一场
+    for (let i = 0; i < allRound.length; i++) {
+        if (allRound[i].roundName === currentRound.roundName) {
+            console.log(i)
+            if (i === 0) {
+                currentRound = allRound[allRound.length - 1];
+            }else{
+                currentRound = allRound[i - 1];
+            }
+            break;
+        }
+    }
+    onCurrentRoundChange();
+})
+
+
+document.addEventListener('selectstart', function (e) {
+    e.preventDefault();
+})
+
+let currentOperation = null;
+
+document.getElementById('button-a-ban').addEventListener('click', function (e) {
+    // 激活自己，熄灭其他ban pick按钮
+    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-ban').classList.add("button-active");
+
+    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-pick').classList.add("button-inactive");
+    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-ban').classList.add("button-inactive");
+    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-pick').classList.add("button-inactive");
+
+    // 准备好全局变量，类似于{ "team": "Red", "type": "Pick", "beatmapID": 2194138 }，只不过没有beatmapId
+    currentOperation = {
+        "team": "Red",
+        "type": "Ban"
+    };
+})
+document.getElementById('button-a-pick').addEventListener('click', function (e) {
+    // 激活自己，熄灭其他ban pick按钮
+    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-ban').classList.add("button-inactive");
+    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-pick').classList.add("button-active");
+    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-ban').classList.add("button-inactive");
+    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-pick').classList.add("button-inactive");
+    currentOperation = {
+        "team": "Red",
+        "type": "Pick"
+    };
+})
+
+document.getElementById('button-b-ban').addEventListener('click', function (e) {
+    // 激活自己，熄灭其他ban pick按钮
+    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-ban').classList.add("button-inactive");
+    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-pick').classList.add("button-inactive");
+    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-ban').classList.add("button-active");
+    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-pick').classList.add("button-inactive");
+    currentOperation = {
+        "team": "Blue",
+        "type": "Ban"
+    }
+})
+document.getElementById('button-b-pick').addEventListener('click', function (e) {
+    // 激活自己，熄灭其他ban pick按钮
+    document.getElementById('button-a-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-ban').classList.add("button-inactive");
+    document.getElementById('button-a-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-a-pick').classList.add("button-inactive");
+    document.getElementById('button-b-ban').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-ban').classList.add("button-inactive");
+    document.getElementById('button-b-pick').classList.remove("button-inactive", "button-active");
+    document.getElementById('button-b-pick').classList.add("button-active");
+    currentOperation = {
+        "team": "Blue",
+        "type": "Pick"
+    }
+})
+
+
 document.getElementById('button-a-first').addEventListener('click', function (e) {
     document.getElementById('player-a-pick').innerText = "SECOND PICK"
     document.getElementById('player-a-ban').innerText = "FIRST BAN"
