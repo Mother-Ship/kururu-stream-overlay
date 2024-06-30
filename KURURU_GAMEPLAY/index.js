@@ -109,6 +109,9 @@ socket.api_v1(({tourney, menu}) => {
                 const star = document.createElement("img");
                 star.className = "points_white";
                 star.src = "../COMMON/img/points_white.png";
+                // 清空原有星星
+                document.getElementById("player-a-stars").innerHTML = "";
+
                 document.getElementById("player-a-stars").appendChild(star);
             }
 
@@ -117,6 +120,9 @@ socket.api_v1(({tourney, menu}) => {
                 const star = document.createElement("img");
                 star.className = "points_white";
                 star.src = "../COMMON/img/points_white.png";
+                // 清空原有星星
+                document.getElementById("player-b-stars").innerHTML = "";
+
                 document.getElementById("player-b-stars").appendChild(star);
             }
 
