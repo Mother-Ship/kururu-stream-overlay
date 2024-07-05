@@ -80,9 +80,9 @@ socket.api_v1(({menu}) => {
 
             document.getElementById("length").innerText =
                 //毫秒数转分：秒
-                (menu.bm.time.full / 60000).toFixed(0) + ":" +
-                //毫秒数转秒， 个位数前面添0
-                (menu.bm.time.full % 60000 / 1000).toFixed(0).padStart(2, "0");
+                Math.trunc(menu.bm.time.full / 60000) + ":" +
+                    //毫秒数转秒， 个位数前面添0
+                    Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
 
             document.getElementById("bpm").innerText = menu.bm.stats.BPM.common;
 
