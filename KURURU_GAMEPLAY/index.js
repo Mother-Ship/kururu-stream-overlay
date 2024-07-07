@@ -38,7 +38,6 @@ socket.api_v1(({tourney, menu}) => {
         const chat = tourney.manager.chat;
         if (chat.length !== cache.chat.length) {
             cache.chat = chat;
-            console.log(chat)
             // 根据chat内容生成HTML
             const chatHtml = chat.map(item => {
                 switch (item.team){
@@ -53,7 +52,8 @@ socket.api_v1(({tourney, menu}) => {
                 }
             }).join('');
             document.getElementById("chat-content").innerHTML = chatHtml;
-
+            var element = document.getElementById("chat-content");
+            element.scrollTop = element.scrollHeight;
         }
 
         const leftUid = tourney.ipcClients[0].spectating.userID;
