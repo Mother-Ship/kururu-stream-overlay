@@ -161,7 +161,7 @@ body {
     top: 65px;
     left: 581px;
     display: flex;
-    row-gap: 14px;
+    row-gap: 10px;
     height: 800px;
     flex-direction: column;
     /*垂直居中*/
