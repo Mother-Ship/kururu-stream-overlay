@@ -13,34 +13,30 @@ const cache = {
 
 };
 
+function leftWin(tourney) {
+    const leftName = tourney.ipcClients[0].spectating.name;
+    if (leftName !== "") {
+        document.getElementById("winner").style.display = "block";
+        document.getElementById("winner-avatar").src =
+            "http://localhost:24050/COMMON/img/avatar/" + leftName + ".jpg"
+        document.getElementById("winner-name").innerHTML = leftName
+    }
+}
+
+function rightWin(tourney) {
+    const rightName = tourney.ipcClients[0].spectating.name;
+    if (rightName !== "") {
+        document.getElementById("winner").style.display = "block";
+        document.getElementById("winner-avatar").src =
+            "http://localhost:24050/COMMON/img/avatar/" + rightName + ".jpg"
+        document.getElementById("winner-name").innerHTML = rightName
+    }
+}
+
 // receive message update from websocket
 socket.api_v1(({tourney, menu}) => {
     try {
 
-
-        const bestOF = tourney.manager.bestOF;
-        if (bestOF !== cache.bestOF) {
-
-            cache.bestOF = bestOF;
-            const max = bestOF / 2 + 0.5;
-            if (leftStar >= max) {
-                const leftUid = tourney.ipcClients[0].spectating.userID;
-                if (leftUid !== 0) {
-                    document.getElementById("winner").style.display = "block";
-                    document.getElementById("winner-avatar").src = "https://a.ppy.sh/" + leftUid + "?.jpeg"
-                    document.getElementById("winner-name").innerHTML = tourney.ipcClients[0].spectating.name;
-                }
-            }
-            if (rightStar >= max) {
-                const rightUid = tourney.ipcClients[1].spectating.userID;
-                if (rightUid !== 0){
-                    document.getElementById("winner").style.display = "block";
-                    document.getElementById("winner-avatar").src = "https://a.ppy.sh/" + rightUid + "?.jpeg"
-                    document.getElementById("winner-name").innerHTML = tourney.ipcClients[1].spectating.name;
-                }
-
-            }
-        }
 
         const leftStar = tourney.manager.stars.left
         if (leftStar !== cache.leftStar) {
@@ -48,12 +44,7 @@ socket.api_v1(({tourney, menu}) => {
 
             const max = cache.bestOF / 2 + 0.5;
             if (leftStar >= max) {
-                const leftUid = tourney.ipcClients[0].spectating.userID;
-                if (leftUid !== 0) {
-                    document.getElementById("winner").style.display = "block";
-                    document.getElementById("winner-avatar").src = "https://a.ppy.sh/" + leftUid + "?.jpeg"
-                    document.getElementById("winner-name").innerHTML = tourney.ipcClients[0].spectating.name;
-                }
+                leftWin(tourney);
             }
 
         }
@@ -63,15 +54,24 @@ socket.api_v1(({tourney, menu}) => {
 
             const max = cache.bestOF / 2 + 0.5;
             if (rightStar >= max) {
-                const rightUid = tourney.ipcClients[1].spectating.userID;
-                if (rightUid !== 0){
-                    document.getElementById("winner").style.display = "block";
-                    document.getElementById("winner-avatar").src = "https://a.ppy.sh/" + rightUid + "?.jpeg"
-                    document.getElementById("winner-name").innerHTML = tourney.ipcClients[1].spectating.name;
-                }
-
+                rightWin(tourney);
             }
         }
+
+
+        const bestOF = tourney.manager.bestOF;
+        if (bestOF !== cache.bestOF) {
+
+            cache.bestOF = bestOF;
+            const max = bestOF / 2 + 0.5;
+            if (leftStar >= max) {
+                leftWin(tourney);
+            }
+            if (rightStar >= max) {
+                rightWin(tourney);
+            }
+        }
+
     } catch (error) {
         console.log(error);
     }

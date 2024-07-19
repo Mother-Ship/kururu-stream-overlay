@@ -4,6 +4,7 @@ import {
     getAllRound,
     getBeatmapListByRoundName,
     getStoredBeatmapById,
+    getTeamRankByFullName,
     storeBeatmapSelection
 } from "../COMMON/lib/bracket.js";
 import WebSocketManager from '../COMMON/lib/socket.js';
@@ -35,7 +36,7 @@ socket.api_v1(({tourney, menu}) => {
             console.log(chat)
             // 根据chat内容生成HTML
             const chatHtml = chat.map(item => {
-                switch (item.team){
+                switch (item.team) {
                     case 'left':
                         return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}&nbsp;</span>${item.messageBody}</p>`
                     case 'right':
@@ -49,24 +50,36 @@ socket.api_v1(({tourney, menu}) => {
             document.getElementById("chat-content").innerHTML = chatHtml;
 
         }
-        const leftUid = tourney.ipcClients[0].spectating.userID;
-        if (leftUid !== cache.leftUid) {
-            cache.leftUid = leftUid;
-            document.getElementById("player-a-name").innerText = tourney.ipcClients[0].spectating.name;
-            document.getElementById("player-a-rank").innerText = "#" + tourney.ipcClients[0].spectating.globalRank;
-            if (leftUid !== 0) {
+        const leftName = tourney.ipcClients[0].spectating.name;
+        if (leftName !== cache.leftName) {
+            cache.leftName = leftName;
+            document.getElementById("player-a-name").innerText = leftName;
+            getTeamRankByFullName(leftName).then(
+                rank => {
+                    document.getElementById("player-a-rank").innerText =
+                        "#" + rank;
+                }
+            )
+
+            if (leftName !== "") {
                 document.getElementById("player-a-avatar").src =
-                    "https://a.ppy.sh/" + leftUid + "?.jpeg"
+                    "http://localhost:24050/COMMON/img/avatar/" + leftName + ".jpg"
             }
         }
-        const rightUid = tourney.ipcClients[1].spectating.userID;
-        if (rightUid !== cache.rightUid) {
-            cache.rightUid = rightUid;
-            document.getElementById("player-b-name").innerText = tourney.ipcClients[1].spectating.name;
-            document.getElementById("player-b-rank").innerText = "#" + tourney.ipcClients[1].spectating.globalRank;
-            if (leftUid !== 0) {
+        const rightName = tourney.ipcClients[0].spectating.name;
+        if (rightName !== cache.rightName) {
+            cache.rightName = rightName;
+            document.getElementById("player-b-name").innerText = rightName;
+            getTeamRankByFullName(rightName).then(
+                rank => {
+                    document.getElementById("player-b-rank").innerText =
+                        "#" + rank;
+                }
+            )
+
+            if (rightName !== "") {
                 document.getElementById("player-b-avatar").src =
-                    "https://a.ppy.sh/" + rightUid + "?.jpeg"
+                    "http://localhost:24050/COMMON/img/avatar/" + rightName + ".jpg"
             }
         }
         const leftScore = tourney.manager.gameplay.score.left;
@@ -326,7 +339,7 @@ document.getElementById('button-match-next').addEventListener('click', function 
             console.log(i)
             if (i === allRound.length - 1) {
                 currentRound = allRound[0];
-            }else{
+            } else {
                 currentRound = allRound[i + 1];
             }
             break;
@@ -344,7 +357,7 @@ document.getElementById('button-match-previous').addEventListener('click', funct
             console.log(i)
             if (i === 0) {
                 currentRound = allRound[allRound.length - 1];
-            }else{
+            } else {
                 currentRound = allRound[i - 1];
             }
             break;

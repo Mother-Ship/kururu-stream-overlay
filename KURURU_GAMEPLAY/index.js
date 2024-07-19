@@ -1,6 +1,6 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
-import {getModNameAndIndexById, getStoredBeatmapById} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+import {getModNameAndIndexById, getStoredBeatmapById, getTeamRankByFullName} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 
@@ -13,8 +13,9 @@ let scoreUpdateTimer = setTimeout(() => {
 
 const cache = {
 
-    leftUid: -1,
-    rightUid: -1,
+    leftName: "",
+    rightName: "",
+
 
     leftScore: 0,
     rightScore: 0,
@@ -40,7 +41,7 @@ socket.api_v1(({tourney, menu}) => {
             cache.chat = chat;
             // 根据chat内容生成HTML
             const chatHtml = chat.map(item => {
-                switch (item.team){
+                switch (item.team) {
                     case 'left':
                         return `<p><span class="time">${item.time}&nbsp;</span> <span class="player-a-name-chat">${item.name}&nbsp;</span>${item.messageBody}</p>`
                     case 'right':
@@ -56,24 +57,36 @@ socket.api_v1(({tourney, menu}) => {
             element.scrollTop = element.scrollHeight;
         }
 
-        const leftUid = tourney.ipcClients[0].spectating.userID;
-        if (leftUid !== cache.leftUid) {
-            cache.leftUid = leftUid;
-            document.getElementById("player-a-name").innerText = tourney.ipcClients[0].spectating.name;
-            document.getElementById("player-a-rank").innerText = "#" + tourney.ipcClients[0].spectating.globalRank;
-            if (leftUid !== 0) {
+        const leftName = tourney.ipcClients[0].spectating.name;
+        if (leftName !== cache.leftName) {
+            cache.leftName = leftName;
+            document.getElementById("player-a-name").innerText = leftName;
+            getTeamRankByFullName(leftName).then(
+                rank => {
+                    document.getElementById("player-a-rank").innerText =
+                        "#" + rank;
+                }
+            )
+
+            if (leftName !== "") {
                 document.getElementById("player-a-avatar").src =
-                    "https://a.ppy.sh/" + leftUid + "?.jpeg"
+                    "http://localhost:24050/COMMON/img/avatar/" + leftName + ".jpg"
             }
         }
-        const rightUid = tourney.ipcClients[1].spectating.userID;
-        if (rightUid !== cache.rightUid) {
-            cache.rightUid = rightUid;
-            document.getElementById("player-b-name").innerText = tourney.ipcClients[1].spectating.name;
-            document.getElementById("player-b-rank").innerText = "#" + tourney.ipcClients[1].spectating.globalRank;
-            if (leftUid !== 0) {
+        const rightName = tourney.ipcClients[0].spectating.name;
+        if (rightName !== cache.rightName) {
+            cache.rightName = rightName;
+            document.getElementById("player-b-name").innerText = rightName;
+            getTeamRankByFullName(rightName).then(
+                rank => {
+                    document.getElementById("player-b-rank").innerText =
+                        "#" + rank;
+                }
+            )
+
+            if (rightName !== "") {
                 document.getElementById("player-b-avatar").src =
-                    "https://a.ppy.sh/" + rightUid + "?.jpeg"
+                    "http://localhost:24050/COMMON/img/avatar/" + rightName + ".jpg"
             }
         }
         const leftScore = tourney.manager.gameplay.score.left;
@@ -160,25 +173,25 @@ socket.api_v1(({tourney, menu}) => {
             }
         }
 
+        document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+
+        document.getElementById("ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
+        document.getElementById("cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
+        document.getElementById("od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
+
+        document.getElementById("bpm").innerText = menu.bm.stats.BPM.common;
+        document.getElementById("star-ranking").innerText = menu.bm.stats.fullSR + "*";
+
+        document.getElementById("title").innerText = menu.bm.metadata.artist
+            + " - "
+            + menu.bm.metadata.title
+            + " [" + menu.bm.metadata.difficulty + "]";
+
+        document.getElementById("mapper").innerText = menu.bm.metadata.mapper;
+
         var bid = menu.bm.id;
         if (bid !== cache.bid) {
             cache.bid = bid;
-
-            document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
-
-            document.getElementById("ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
-            document.getElementById("cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
-            document.getElementById("od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
-
-            document.getElementById("bpm").innerText = menu.bm.stats.BPM.common;
-            document.getElementById("star-ranking").innerText = menu.bm.stats.fullSR + "*";
-
-            document.getElementById("title").innerText = menu.bm.metadata.artist
-                + " - "
-                + menu.bm.metadata.title
-                + " [" + menu.bm.metadata.difficulty + "]";
-
-            document.getElementById("mapper").innerText = menu.bm.metadata.mapper;
 
             // 处理picked by
             const operation = getStoredBeatmapById(bid.toString())
@@ -188,13 +201,13 @@ socket.api_v1(({tourney, menu}) => {
                     if (operation.team === "Red") {
                         document.getElementById("selected").classList.remove("picked-by-a", "picked-by-b")
                         document.getElementById("selected").classList.add("picked-by-a")
-                        document.getElementById("selected").style.display= "flex"
+                        document.getElementById("selected").style.display = "flex"
                         document.getElementById("picked-by").innerText = "Picked by " + tourney.ipcClients[0].spectating.name;
                     }
                     if (operation.team === "Blue") {
                         document.getElementById("selected").classList.remove("picked-by-a", "picked-by-b")
                         document.getElementById("selected").classList.add("picked-by-b")
-                        document.getElementById("selected").style.display= "flex"
+                        document.getElementById("selected").style.display = "flex"
                         document.getElementById("picked-by").innerText = "Picked by " + tourney.ipcClients[1].spectating.name;
                     }
                 }

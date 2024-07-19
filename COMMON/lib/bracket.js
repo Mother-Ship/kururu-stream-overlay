@@ -3,6 +3,16 @@ export async function fetchBracketData() {
     return response.json();
 }
 
+export function getTeamRankByFullName(name){
+    return fetchBracketData().then(data => {
+        for (const team of data.Teams) {
+            if (team.FullName === name) {
+                return team.Players[0].Rank;
+            }
+        }
+    });
+}
+
 export function getAllRound() {
     return fetchBracketData().then(data => {
         const allRounds = [];
