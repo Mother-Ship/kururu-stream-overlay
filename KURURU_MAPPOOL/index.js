@@ -13,8 +13,9 @@ const socket = new WebSocketManager('127.0.0.1:24050');
 
 
 const cache = {
-    leftUid: -1,
-    rightUid: -1,
+    leftName: "",
+    rightName: "",
+
 
     leftScore: 0,
     rightScore: 0,
