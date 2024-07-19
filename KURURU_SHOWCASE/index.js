@@ -63,41 +63,47 @@ document.addEventListener('selectstart', function (e) {
 socket.api_v1(({menu}) => {
 
     try {
-        var bid = menu.bm.id;
+
+        document.getElementById("ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
+        document.getElementById("cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
+        document.getElementById("od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
+
+        document.getElementById("map-ar-bar").style.height = menu.bm.stats.AR * 100 / 10 + "%";
+        document.getElementById("map-cs-bar").style.height = menu.bm.stats.CS * 100 / 10 + "%";
+        document.getElementById("map-od-bar").style.height = menu.bm.stats.OD * 100 / 10 + "%";
+
+
+        document.getElementById("length").innerText =
+            //毫秒数转分：秒
+            Math.trunc(menu.bm.time.full / 60000) + ":" +
+            //毫秒数转秒， 个位数前面添0
+            Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
+
+        document.getElementById("bpm").innerText = menu.bm.stats.BPM.common;
+
+        document.getElementById("star-ranking").innerText = menu.bm.stats.fullSR.toFixed(2) + "*";
+        document.getElementById("artist").innerText = menu.bm.metadata.artist
+        document.getElementById("diff").innerText = "[" + menu.bm.metadata.difficulty + "]"
+
+        document.getElementById("title").innerText = menu.bm.metadata.title;
+
+        document.getElementById("mapper").innerText = "Mapper: " + menu.bm.metadata.mapper;
+
+        drawStar(menu.bm.stats.fullSR / 10);
+        drawBpm(menu.bm.stats.BPM.common / 400);
+        // 10分钟拉满
+        drawLength(menu.bm.time.full / 600000);
+
+
+        const bgPath = menu.bm.path.full;
+        if (bgPath !== cache.bgPath) {
+            cache.bgPath = bgPath;
+            document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+        }
+
+        let  bid = menu.bm.id;
         if (bid !== cache.bid) {
             cache.bid = bid;
-
-            document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
-
-            document.getElementById("ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
-            document.getElementById("cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
-            document.getElementById("od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
-
-            document.getElementById("map-ar-bar").style.height = menu.bm.stats.AR * 100 / 10 + "%";
-            document.getElementById("map-cs-bar").style.height = menu.bm.stats.CS * 100 / 10 + "%";
-            document.getElementById("map-od-bar").style.height = menu.bm.stats.OD * 100 / 10 + "%";
-
-
-            document.getElementById("length").innerText =
-                //毫秒数转分：秒
-                Math.trunc(menu.bm.time.full / 60000) + ":" +
-                    //毫秒数转秒， 个位数前面添0
-                    Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
-
-            document.getElementById("bpm").innerText = menu.bm.stats.BPM.common;
-
-            document.getElementById("star-ranking").innerText = menu.bm.stats.fullSR.toFixed(2) + "*";
-            document.getElementById("artist").innerText = menu.bm.metadata.artist
-            document.getElementById("diff").innerText = "[" + menu.bm.metadata.difficulty + "]"
-
-            document.getElementById("title").innerText = menu.bm.metadata.title;
-
-            document.getElementById("mapper").innerText = "Mapper: " + menu.bm.metadata.mapper;
-
-            drawStar(menu.bm.stats.fullSR / 10);
-            drawBpm(menu.bm.stats.BPM.common / 400);
-            // 10分钟拉满
-            drawLength(menu.bm.time.full / 600000);
 
             //读取bracket.json处理mod
             const mod = getModNameAndIndexById(bid);

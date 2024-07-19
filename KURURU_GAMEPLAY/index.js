@@ -1,9 +1,12 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
 import {getModNameAndIndexById, getStoredBeatmapById, getTeamRankByFullName} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+import {CountUp} from '../COMMON/lib/countUp.min.js';
 
 const socket = new WebSocketManager('127.0.0.1:24050');
-
+const teamAScore = new CountUp('score-red', 0, {duration: 0.5, useGrouping: true});
+const teamBScore = new CountUp('score-blue', 0, {duration: 0.5, useGrouping: true});
+const scoreOffset = new CountUp('score-offset', 0, {duration: 0.5, useGrouping: true});
 
 let scoreUpdateTimer = setTimeout(() => {
     console.log('隐藏计分板，展示聊天框')
@@ -27,6 +30,7 @@ const cache = {
     chat: [],
 
     bid: 0,
+    bgPath: ""
 
 };
 document.addEventListener('selectstart', function (e) {
@@ -94,10 +98,10 @@ socket.api_v1(({tourney, menu}) => {
         if (leftScore !== cache.leftScore || rightScore !== cache.rightScore) {
             cache.leftScore = leftScore;
             cache.rightScore = rightScore;
-            document.getElementById("score-red").innerText = leftScore;
-            document.getElementById("score-blue").innerText = rightScore;
-            document.getElementById("score-offset").innerText = Math.abs(leftScore - rightScore);
 
+            teamAScore.update(leftScore);
+            teamBScore.update(rightScore);
+            scoreOffset.update(Math.abs(leftScore - rightScore));
             // 隐藏聊天框，显示计分板
             document.getElementById('chat').style.display = 'none';
             document.getElementById('scoreboard').style.display = 'flex';
@@ -173,7 +177,6 @@ socket.api_v1(({tourney, menu}) => {
             }
         }
 
-        document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
 
         document.getElementById("ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
         document.getElementById("cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
@@ -187,11 +190,19 @@ socket.api_v1(({tourney, menu}) => {
             + menu.bm.metadata.title
             + " [" + menu.bm.metadata.difficulty + "]";
 
-        document.getElementById("mapper").innerText = menu.bm.metadata.mapper;
+        document.getElementById("mapper").innerText = "Mapper: " + menu.bm.metadata.mapper;
 
-        var bid = menu.bm.id;
+        const bgPath = menu.bm.path.full;
+        if (bgPath !== cache.bgPath) {
+            cache.bgPath = bgPath;
+            document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+        }
+
+        const bid = menu.bm.id;
         if (bid !== cache.bid) {
             cache.bid = bid;
+
+
 
             // 处理picked by
             const operation = getStoredBeatmapById(bid.toString())
