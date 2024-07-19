@@ -53,7 +53,7 @@ socket.api_v1(({tourney, menu}) => {
                 }
             }).join('');
             document.getElementById("chat-content").innerHTML = chatHtml;
-            var element = document.getElementById("chat-content");
+            let element = document.getElementById("chat-content");
             element.scrollTop = element.scrollHeight;
         }
 

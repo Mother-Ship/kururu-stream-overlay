@@ -49,7 +49,8 @@ socket.api_v1(({tourney, menu}) => {
                 }
             }).join('');
             document.getElementById("chat-content").innerHTML = chatHtml;
-
+            let element = document.getElementById("chat-content");
+            element.scrollTop = element.scrollHeight;
         }
         const leftName = tourney.ipcClients[0].spectating.name;
         if (leftName !== cache.leftName) {
