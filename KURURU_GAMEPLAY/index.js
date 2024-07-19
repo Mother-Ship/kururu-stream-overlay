@@ -67,6 +67,7 @@ socket.api_v1(({tourney, menu}) => {
             document.getElementById("player-a-name").innerText = leftName;
             getTeamRankByFullName(leftName).then(
                 rank => {
+                    if (rank)
                     document.getElementById("player-a-rank").innerText =
                         "#" + rank;
                 }
@@ -77,12 +78,13 @@ socket.api_v1(({tourney, menu}) => {
                     "http://localhost:24050/COMMON/img/avatar/" + leftName + ".jpg"
             }
         }
-        const rightName = tourney.ipcClients[0].spectating.name;
+        const rightName = tourney.ipcClients[1].spectating.name;
         if (rightName !== cache.rightName) {
             cache.rightName = rightName;
             document.getElementById("player-b-name").innerText = rightName;
             getTeamRankByFullName(rightName).then(
                 rank => {
+                    if (rank)
                     document.getElementById("player-b-rank").innerText =
                         "#" + rank;
                 }
