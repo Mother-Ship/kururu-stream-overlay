@@ -9,7 +9,7 @@ let scoreUpdateTimer = setTimeout(() => {
     console.log('隐藏计分板，展示聊天框')
     document.getElementById('chat').style.display = 'flex';
     document.getElementById('scoreboard').style.display = 'none';
-}, 5000);
+}, 8000);
 
 const cache = {
 
@@ -95,7 +95,7 @@ socket.api_v1(({tourney, menu}) => {
                 console.log('隐藏计分板，展示聊天框')
                 document.getElementById('chat').style.display = 'flex';
                 document.getElementById('scoreboard').style.display = 'none';
-            }, 5000);
+            }, 8000);
 
         }
 
