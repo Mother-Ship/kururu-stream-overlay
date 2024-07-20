@@ -4,8 +4,9 @@ import {getModEnumFromModString, getModNameAndIndexById} from '../COMMON/lib/bra
 
 
 import OsuParser from '../COMMON/lib/osuParser.js';
-
-const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
+import {__wbg_init} from "../COMMON/lib/rosu-pp/rosu_pp.js";
+await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm')
+const p = new OsuParser();
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 

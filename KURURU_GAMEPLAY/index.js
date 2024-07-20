@@ -9,13 +9,15 @@ import {
 import {CountUp} from '../COMMON/lib/countUp.min.js';
 
 import OsuParser from '../COMMON/lib/osuParser.js';
+import {__wbg_init} from "../COMMON/lib/rosu-pp/rosu_pp.js";
+await __wbg_init('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm')
+const p = new OsuParser();
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 const teamAScore = new CountUp('score-red', 0, {duration: 0.5, useGrouping: true});
 const teamBScore = new CountUp('score-blue', 0, {duration: 0.5, useGrouping: true});
 const scoreOffset = new CountUp('score-offset', 0, {duration: 0.5, useGrouping: true});
 
-const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 
 function showChat() {
     document.getElementById('chat').classList.remove('fade-out');
