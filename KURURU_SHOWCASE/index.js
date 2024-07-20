@@ -1,6 +1,11 @@
 // connecting to websocket
 import WebSocketManager from '../COMMON/lib/socket.js';
-import {getModNameAndIndexById} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+import {getModEnumFromModString, getModNameAndIndexById} from '../COMMON/lib/bracket.js'; // 路径根据实际情况调整
+
+
+import OsuParser from '../COMMON/lib/osuParser.js';
+
+const p = new OsuParser('../COMMON/lib/rosu-pp/rosu_pp_bg.wasm');
 
 const socket = new WebSocketManager('127.0.0.1:24050');
 
@@ -61,28 +66,11 @@ function drawLength(x) {
 document.addEventListener('selectstart', function (e) {
     e.preventDefault();
 })
-socket.api_v1(({menu}) => {
+socket.api_v1(async  ({menu}) => {
 
     try {
 
-        document.getElementById("ar").innerText = parseFloat(menu.bm.stats.AR).toFixed(1);
-        document.getElementById("cs").innerText = parseFloat(menu.bm.stats.CS).toFixed(1);
-        document.getElementById("od").innerText = parseFloat(menu.bm.stats.OD).toFixed(1);
 
-        document.getElementById("map-ar-bar").style.height = menu.bm.stats.AR * 100 / 10 + "%";
-        document.getElementById("map-cs-bar").style.height = menu.bm.stats.CS * 100 / 10 + "%";
-        document.getElementById("map-od-bar").style.height = menu.bm.stats.OD * 100 / 10 + "%";
-
-
-        document.getElementById("length").innerText =
-            //毫秒数转分：秒
-            Math.trunc(menu.bm.time.full / 60000) + ":" +
-            //毫秒数转秒， 个位数前面添0
-            Math.trunc(menu.bm.time.full % 60000 / 1000).toString().padStart(2, "0");
-
-        document.getElementById("bpm").innerText = menu.bm.stats.BPM.common;
-
-        document.getElementById("star-ranking").innerText = menu.bm.stats.fullSR.toFixed(2) + "*";
         document.getElementById("artist").innerText = menu.bm.metadata.artist
         document.getElementById("diff").innerText = "[" + menu.bm.metadata.difficulty + "]"
 
@@ -90,10 +78,7 @@ socket.api_v1(({menu}) => {
 
         document.getElementById("mapper").innerText = "Mapper: " + menu.bm.metadata.mapper;
 
-        drawStar(menu.bm.stats.fullSR / 10);
-        drawBpm(menu.bm.stats.BPM.common / 400);
-        // 10分钟拉满
-        drawLength(menu.bm.time.full / 600000);
+
 
 
         const bgPath = menu.bm.path.full;
@@ -103,8 +88,37 @@ socket.api_v1(({menu}) => {
         }
 
         let bid = menu.bm.id;
+
         if (bid !== cache.bid) {
             cache.bid = bid;
+            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
+
+            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
+            parsed.mod = modNameAndIndex.modName;
+            let mods = getModEnumFromModString(parsed.mod);
+            parsed.modded = p.getModded(parsed, mods);
+            document.getElementById("ar").innerText = parseFloat(parsed.modded.difficulty.ar).toFixed(1);
+            document.getElementById("cs").innerText = parseFloat(parsed.modded.difficulty.cs).toFixed(1);
+            document.getElementById("od").innerText = parseFloat(parsed.modded.difficulty.od).toFixed(1);
+
+            document.getElementById("bpm").innerText = parsed.modded.beatmap.bpm.mostly;
+            document.getElementById("star-ranking").innerText = parsed.modded.difficulty.sr.toFixed(2) + "*"
+
+            document.getElementById("map-ar-bar").style.height = parseFloat(parsed.modded.difficulty.ar)* 100 / 10 + "%";
+            document.getElementById("map-cs-bar").style.height = parseFloat(parsed.modded.difficulty.cs) * 100 / 10 + "%";
+            document.getElementById("map-od-bar").style.height = parseFloat(parsed.modded.difficulty.od) * 100 / 10 + "%";
+
+            document.getElementById("length").innerText =
+                //毫秒数转分：秒
+                Math.trunc(parsed.modded.beatmap.length / 60000) + ":" +
+                //毫秒数转秒， 个位数前面添0
+                Math.trunc(parsed.modded.beatmap.length % 60000 / 1000).toString().padStart(2, "0");
+
+            drawStar(parsed.modded.difficulty.sr / 10);
+            drawBpm(parsed.modded.beatmap.bpm.mostly / 400);
+            // 10分钟拉满
+            drawLength(parsed.modded.beatmap.length / 600000);
+
 
             //读取bracket.json处理mod
             const mod = getModNameAndIndexById(bid);

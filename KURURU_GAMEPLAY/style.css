@@ -19,7 +19,7 @@ body {
 }
 
 .container {
-    width: 1920px;
+    width: 2238px;
     height: 1080px;
 }
 
@@ -282,15 +282,6 @@ body {
     display: none;
 }
 
-.triangle {
-    position: absolute;
-    left: 564px;
-    top: 57px;
-    width: 41px;
-    height: 18px;
-    background-image: url(../COMMON/img/triangle.png);
-    background-repeat: no-repeat;
-}
 
 .red-blue {
     position: absolute;
@@ -303,7 +294,7 @@ body {
 .score-offset {
     position: absolute;
     left: 514px;
-    top: 45px;
+    top: 32px;
     display: flex;
     width: 144px;
     height: 20px;
@@ -319,6 +310,31 @@ body {
     letter-spacing: 0px;
     color: #ffffff;
 }
+
+
+
+#triangle {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+
+    top: 934px;
+    left: 940px;
+
+    background-image: url(../COMMON/img/triangle.png);
+    background-repeat: no-repeat;
+    transition: all 0.1s;
+}
+
+.fade-in {
+    transition: opacity 0.5s ease; /* 透明度过渡0.5秒，效果平滑 */
+}
+
+.fade-out {
+    transition: opacity 0.5s ease; /* 透明度过渡0.5秒，效果平滑 */
+    opacity: 0; /* 淡出至完全透明 */
+}
+
 
 .scores {
     position: absolute;
@@ -343,8 +359,7 @@ body {
     width: 1170px;
     height: 202px;
     background-color: rgba(0, 0, 0, 0.58); /* 50% 透明度的黑色背景 */
-
-    display: none;
+    opacity: 0;
 }
 
 #chat-content {
@@ -402,5 +417,77 @@ body {
     filter: blur(3px);
 }
 
-.mapper-desc {
+
+.control-panel {
+    background: #363636;
+    width: 318px;
+    height: 1080px;
+    position: absolute;
+    left: 1920px;
+}
+
+.panel-title {
+    font-family: 'TorusNotched-Bold';
+    font-size: 30px;
+    color: #FFFFFF;
+    position: absolute;
+    left: 60px;
+}
+
+.panel-label span {
+    font-family: 'TorusNotched-Bold';
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+.panel-buttons {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#select-round {
+    width: 298px;
+    height: 60px;
+    background-color: #44aadd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 20px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.button-inactive {
+    background-color: #1d536e;
+    border-radius: 8px;
+    width: 298px;
+    height: 80px;
+    font-family: 'TorusNotched-Bold';
+    font-size: 20px;
+    color: #808080;
+    border: none;
+}
+
+.button-active {
+    background-color: #44aadd;
+    border-radius: 8px;
+    width: 298px;
+    height: 80px;
+    font-family: 'TorusNotched-Bold';
+    font-size: 20px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.button-active:hover {
+    background-color: #64cafd;
+}
+
+.button-inactive:hover {
+    background-color: #2b617c;
 }
