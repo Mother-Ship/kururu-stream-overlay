@@ -92,7 +92,9 @@ socket.api_v1(async  ({menu}) => {
 
         if (bid !== cache.bid) {
             cache.bid = bid;
-            let parsed = await p.parse(`http://${location.host}/Songs/${menu.bm.path.folder}/${menu.bm.path.file}`);
+            let path = encodeURIComponent(menu.bm.path.folder);
+            let file = encodeURIComponent(menu.bm.path.file);
+            let parsed = await p.parse(`http://${location.host}/Songs/${path}/${file}`);
 
             const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
             parsed.mod = modNameAndIndex.modName;
