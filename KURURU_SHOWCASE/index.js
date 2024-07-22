@@ -97,10 +97,11 @@ socket.api_v1(async  ({menu}) => {
             let file = encodeURIComponent(menu.bm.path.file);
             let parsed = await p.parse(`http://${location.host}/Songs/${path}/${file}`);
 
-            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
-            parsed.mod = modNameAndIndex.modName;
+            const mod = await getModNameAndIndexById(bid);
+            parsed.mod = mod.modName;
             let mods = getModEnumFromModString(parsed.mod);
             parsed.modded = p.getModded(parsed, mods);
+
             document.getElementById("ar").innerText = parseFloat(parsed.modded.difficulty.ar).toFixed(1);
             document.getElementById("cs").innerText = parseFloat(parsed.modded.difficulty.cs).toFixed(1);
             document.getElementById("od").innerText = parseFloat(parsed.modded.difficulty.od).toFixed(1);
@@ -108,7 +109,7 @@ socket.api_v1(async  ({menu}) => {
             document.getElementById("bpm").innerText = parsed.modded.beatmap.bpm.mostly;
             document.getElementById("star-ranking").innerText = parsed.modded.difficulty.sr.toFixed(2) + "*"
 
-            document.getElementById("map-ar-bar").style.height = parseFloat(parsed.modded.difficulty.ar)* 100 / 10 + "%";
+            document.getElementById("map-ar-bar").style.height = parseFloat(parsed.modded.difficulty.ar) * 100 / 10 + "%";
             document.getElementById("map-cs-bar").style.height = parseFloat(parsed.modded.difficulty.cs) * 100 / 10 + "%";
             document.getElementById("map-od-bar").style.height = parseFloat(parsed.modded.difficulty.od) * 100 / 10 + "%";
 
@@ -124,35 +125,30 @@ socket.api_v1(async  ({menu}) => {
             drawLength(parsed.modded.beatmap.length / 600000);
 
 
-            //读取bracket.json处理mod
-            const mod = getModNameAndIndexById(bid);
-            mod.then(mod => {
-                console.log(mod)
-
-                document.getElementById("mods").innerText = mod.modName + mod.index;
-                // 修改display: flex + background-color: #1eafed
-                var element = document.getElementById("mods-bg");
-                element.style.display = "flex";
-                // NM 1eafed，HD f9a826 HR f25c54  DT 7e5a83 RX 76d7c4 TB 2f2f2f
-                if (mod.modName === "NM") {
-                    element.style.backgroundColor = "#1eafed";
-                }
-                if (mod.modName === "HD") {
-                    element.style.backgroundColor = "#f9a826";
-                }
-                if (mod.modName === "HR") {
-                    element.style.backgroundColor = "#f25c54";
-                }
-                if (mod.modName === "DT") {
-                    element.style.backgroundColor = "#7e5a83";
-                }
-                if (mod.modName === "RX") {
-                    element.style.backgroundColor = "#76d7c4";
-                }
-                if (mod.modName === "TB") {
-                    element.style.backgroundColor = "#2f2f2f";
-                }
-            });
+            //处理mod
+            document.getElementById("mods").innerText = mod.modName + mod.index;
+            // 修改display: flex + background-color: #1eafed
+            var element = document.getElementById("mods-bg");
+            element.style.display = "flex";
+            // NM 1eafed，HD f9a826 HR f25c54  DT 7e5a83 RX 76d7c4 TB 2f2f2f
+            if (mod.modName === "NM") {
+                element.style.backgroundColor = "#1eafed";
+            }
+            if (mod.modName === "HD") {
+                element.style.backgroundColor = "#f9a826";
+            }
+            if (mod.modName === "HR") {
+                element.style.backgroundColor = "#f25c54";
+            }
+            if (mod.modName === "DT") {
+                element.style.backgroundColor = "#7e5a83";
+            }
+            if (mod.modName === "RX") {
+                element.style.backgroundColor = "#76d7c4";
+            }
+            if (mod.modName === "TB") {
+                element.style.backgroundColor = "#2f2f2f";
+            }
         }
 
     } catch (error) {

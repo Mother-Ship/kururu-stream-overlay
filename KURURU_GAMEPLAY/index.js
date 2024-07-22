@@ -257,8 +257,10 @@ socket.api_v1(async ({tourney, menu}) => {
             let path = encodeURIComponent(menu.bm.path.folder);
             let file = encodeURIComponent(menu.bm.path.file);
             let parsed = await p.parse(`http://${location.host}/Songs/${path}/${file}`);
-            const modNameAndIndex = await getModNameAndIndexById(parsed.metadata.bid);
-            parsed.mod = modNameAndIndex.modName;
+
+            const mod = await getModNameAndIndexById(bid);
+            parsed.mod = mod.modName;
+
             let mods = getModEnumFromModString(parsed.mod);
             parsed.modded = p.getModded(parsed, mods);
             document.getElementById("ar").innerText = parseFloat(parsed.modded.difficulty.ar).toFixed(1);
