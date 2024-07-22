@@ -85,7 +85,8 @@ socket.api_v1(async  ({menu}) => {
         const bgPath = menu.bm.path.full;
         if (bgPath !== cache.bgPath) {
             cache.bgPath = bgPath;
-            document.getElementById("bg").src = "http://localhost:24050/Songs/" + menu.bm.path.full;
+
+            document.getElementById("bg").src = "http://localhost:24050/Songs/" + encodeURIComponent(menu.bm.path.full);
         }
 
         let bid = menu.bm.id;
